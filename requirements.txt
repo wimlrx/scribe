@@ -1,0 +1,30 @@
+# Scribe's Python packages (Windows, Python 3.13). install.ps1 installs these into .venv.
+# Pinned to the versions Scribe is tested with.
+
+# Speech to text (CTranslate2 Whisper). Its CUDA 12 libraries (cuBLAS) come from PyTorch's CUDA build,
+# which install.ps1 installs first from download.pytorch.org (torch==2.11.0, cu128).
+faster-whisper==1.2.1
+ctranslate2==4.8.1
+
+# Speaker diarisation
+sherpa-onnx==2.0.1
+sherpa-onnx-core==2.0.1
+
+# Audio capture (microphone + WASAPI loopback) and files
+PyAudioWPatch==0.2.12.9
+soundfile==0.14.0
+soxr==1.1.0
+av==18.0.0
+numpy==2.4.6
+
+# Tray, UI automation, file watching, local HTTP to Ollama
+pystray==0.19.5
+pillow==12.2.0
+comtypes==1.4.17
+pywin32==312
+psutil==7.2.2
+watchdog==6.0.0
+requests==2.34.2
+
+# MCP server so Claude Code can read transcripts (1.x; 2.x pulls different packages)
+mcp==1.30.0

@@ -1,0 +1,26 @@
+[project]
+name = "scribe"
+version = "0.1.0"
+description = "Offline dictation and meeting notetaker for Windows. Whisper on your GPU, nothing leaves your PC."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+classifiers = [
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Environment :: Win32 (MS Windows)",
+]
+# Runtime packages are pinned in requirements.txt (installed by install.ps1).
+
+[project.urls]
+Homepage = "https://github.com/wimlrx/scribe"
+Issues = "https://github.com/wimlrx/scribe/issues"
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501", "E702", "E731", "E741"]

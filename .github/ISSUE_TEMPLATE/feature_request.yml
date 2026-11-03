@@ -1,0 +1,14 @@
+name: Feature request
+description: An idea for Scribe
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like Scribe to do
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it helps

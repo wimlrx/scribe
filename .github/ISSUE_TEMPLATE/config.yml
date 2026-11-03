@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/wimlrx/scribe/discussions
+    about: Ask and share in Discussions

@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Local data: never commit recordings, transcripts, voiceprints or settings
+settings.json
+voiceprint.json
+lexicon.json
+ipc.key
+*.log
+Recordings/
+Inbox/
+
+# Secrets
+.env
+.env.*
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
