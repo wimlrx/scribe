@@ -4,7 +4,7 @@ Right after a dictation is pasted, EditWatcher takes the focused text box throug
 snapshot of its text in memory. Once the user has edited the box and paused, moved on, or two minutes have passed,
 it compares the box with the snapshot once. Where a word or short phrase Scribe typed was replaced by one that
 plausibly sounds the same, the pair (what Scribe heard, what the user wrote) goes into the Lexicon at
-%LOCALAPPDATA%\\Scribe\\lexicon.json. Snapshots stay in memory and are dropped after the comparison; only the
+%USERPROFILE%\\.scribe\\lexicon.json. Snapshots stay in memory and are dropped after the comparison; only the
 learned pairs are stored, and only their count is logged. Password boxes are never read.
 
 The Lexicon feeds three things: terms() biases Whisper's prompt towards the user's names and spellings, apply()

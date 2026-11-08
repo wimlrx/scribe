@@ -30,7 +30,7 @@ Hold `Ctrl+Win`, speak, let go: your words are typed where the cursor is. Click 
 
 - Speech is transcribed on **your** GPU with [faster-whisper](https://github.com/SYSTRAN/faster-whisper). No cloud speech API, no account, no telemetry.
 - Clean-up and video notes use [Ollama](https://ollama.com) on `127.0.0.1`.
-- Audio, transcripts and voiceprints live in `Documents\Scribe` and `%LOCALAPPDATA%\Scribe`. Delete those folders and it is all gone.
+- Audio, transcripts and voiceprints live in `Documents\Scribe` and `%USERPROFILE%\.scribe`. Delete those folders and it is all gone.
 - The **only** thing that ever leaves the PC is a transcript you explicitly send to a Claude Code vault. That run is locked down: no MCP servers, no connectors, no browser, file access limited to the job and that vault, and recorded speech is treated as data, never as instructions. Choose **Local** and nothing leaves at all.
 
 ## Requirements
@@ -69,7 +69,7 @@ Each job gets its own folder in `Documents\Scribe\Recordings\<date time>\` holdi
 
 ## Send transcripts to your notes (Claude Code)
 
-Add your notes folders ("vaults") to `%LOCALAPPDATA%\Scribe\settings.json`, then run `install.ps1` again to get a *Send to* entry for each:
+Add your notes folders ("vaults") to `%USERPROFILE%\.scribe\settings.json`, then run `install.ps1` again to get a *Send to* entry for each:
 
 ```json
 "owner_name": "Your Name",
@@ -112,7 +112,7 @@ The full design is in [docs/DESIGN.md](docs/DESIGN.md).
 
 ## Settings
 
-`%LOCALAPPDATA%\Scribe\settings.json` is written on first run. Edit it, then restart Scribe from the tray.
+`%USERPROFILE%\.scribe\settings.json` is written on first run. Edit it, then restart Scribe from the tray.
 
 | Key | What it sets |
 |---|---|
@@ -149,7 +149,7 @@ The full design is in [docs/DESIGN.md](docs/DESIGN.md).
 
 **Another dictation app also uses `Ctrl+Win`.** Quit it, or both will listen.
 
-**Where are the logs?** `%LOCALAPPDATA%\Scribe\logs\scribe.log`. Scribe shows no error dialogs; problems go to the log and a red ✕ flashes on screen.
+**Where are the logs?** `%USERPROFILE%\.scribe\logs\scribe.log`. Scribe shows no error dialogs; problems go to the log and a red ✕ flashes on screen.
 
 ## Tests
 

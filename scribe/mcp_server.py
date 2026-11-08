@@ -7,7 +7,7 @@ It talks to the running Scribe only through Scribe's own IPC (app.send_commands:
 and key a second launch uses) and reads job folders directly; it opens no port of its own. Every tool reads,
 except start_notetaker, stop_notetaker and send_to_vault, which act through the app as the tray does.
 Transcript text goes back to the calling session only. It is never logged: the server's log
-(%LOCALAPPDATA%\\Scribe\\logs\\mcp.log) holds ids, kinds and counts.
+(%USERPROFILE%\\.scribe\\logs\\mcp.log) holds ids, kinds and counts.
 
 live_transcript transcribes a recording still in progress. It copies the tracks the recorder is writing (both
 handles share the file, so the recorder never notices), mixes the copies, and transcribes them in a child process.
@@ -738,7 +738,7 @@ def root_errors_only(record: logging.LogRecord) -> bool:
 
 
 def setup_logging(level: int = logging.INFO) -> Path:
-    """%LOCALAPPDATA%\\Scribe\\logs\\mcp.log for this process (scribe.log belongs to the app: two processes cannot
+    """%USERPROFILE%\\.scribe\\logs\\mcp.log for this process (scribe.log belongs to the app: two processes cannot
     share one rotating file on Windows). The root logger gets it too, at WARNING, so nothing reaches stderr."""
     path = config.logs_dir() / "mcp.log"
     handler = logging.handlers.RotatingFileHandler(path, maxBytes=1_000_000, backupCount=3, encoding="utf-8",

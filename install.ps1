@@ -68,7 +68,7 @@ try {
         & $Python -c "from faster_whisper.utils import download_model as d; [d(m) for m in ('large-v3', 'large-v3-turbo')]"
         if ($LASTEXITCODE -ne 0) { Say 'models   FAILED Whisper download - run this again' }
 
-        $md  = Join-Path $env:LOCALAPPDATA 'Scribe\models'
+        $md  = Join-Path $env:USERPROFILE '.scribe\models'
         $rel = 'https://github.com/k2-fsa/sherpa-onnx/releases/download'
         $emb = Join-Path $md 'wespeaker_en_voxceleb_resnet34_LM.onnx'
         $seg = Join-Path $md 'sherpa-onnx-pyannote-segmentation-3-0\model.onnx'

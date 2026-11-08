@@ -27,4 +27,4 @@ Some tests need an NVIDIA GPU, the Whisper and speaker models, or a running Olla
 
 ## Reporting bugs
 
-Use the bug template. Attach the relevant lines from `%LOCALAPPDATA%\Scribe\logs\scribe.log`. The log holds ids and counts, not transcript text, but check before you paste.
+Use the bug template. Attach the relevant lines from `%USERPROFILE%\.scribe\logs\scribe.log`. The log holds ids and counts, not transcript text, but check before you paste.

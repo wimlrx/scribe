@@ -958,7 +958,7 @@ class TestStdio(Case):
         self.env.job("2026-10-31 0800", draft="# draft\n\n- [00:01] **Alex Morgan** " + SECRET + "\n")
         entry = mcp_server.server_entry()                         # exactly what Claude Code is told to run
         params = StdioServerParameters(command=entry["command"], args=[*entry["args"], "--ipc-port", str(self.port)],
-                                       env={**entry["env"], "LOCALAPPDATA": str(self.local)}, cwd=str(self.tmp))
+                                       env={**entry["env"], "SCRIBE_HOME": str(self.local / "Scribe")}, cwd=str(self.tmp))
         out = {}
         errlog = self.tmp / "stderr.txt"
 
@@ -993,7 +993,7 @@ class TestStdio(Case):
         import queue as queue_mod
 
         entry = mcp_server.server_entry()
-        env = {**os.environ, **entry["env"], "LOCALAPPDATA": str(self.local)}
+        env = {**os.environ, **entry["env"], "SCRIBE_HOME": str(self.local / "Scribe")}
         proc = subprocess.Popen([entry["command"], *entry["args"], "--ipc-port", str(self.port)], cwd=str(self.tmp),
                                 env=env, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
                                 creationflags=subprocess.CREATE_NO_WINDOW)

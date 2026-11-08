@@ -1,5 +1,5 @@
 """diarize: sherpa-onnx diarisation on the fixtures, voiceprint enrolment and naming, word assignment on synthetic data.
-Model tests skip when the sherpa models are not in %LOCALAPPDATA%\\Scribe\\models. Writes only under tempfile dirs."""
+Model tests skip when the sherpa models are not in %USERPROFILE%\\.scribe\\models. Writes only under tempfile dirs."""
 from __future__ import annotations
 
 import json
@@ -75,7 +75,7 @@ def triples(diar: list[dict]) -> list[tuple]:
     return [(s["start"], s["end"], s["speaker"]) for s in diar]
 
 
-@unittest.skipUnless(models_present(), "sherpa-onnx models not in %LOCALAPPDATA%\\Scribe\\models")
+@unittest.skipUnless(models_present(), "sherpa-onnx models not in %USERPROFILE%\\.scribe\\models")
 class DiarizeFixtures(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -219,7 +219,7 @@ class DiarizeFixtures(unittest.TestCase):
         self.assertEqual(names, {0: "Speaker 1", 1: "Speaker 2"})
 
 
-@unittest.skipUnless(models_present(), "sherpa-onnx models not in %LOCALAPPDATA%\\Scribe\\models")
+@unittest.skipUnless(models_present(), "sherpa-onnx models not in %USERPROFILE%\\.scribe\\models")
 class LabelByPitch(unittest.TestCase):
     """The labelling step parts voices that sherpa merged, by pitch. The fixture's two voices sit near 90 Hz and
     180 Hz; at threshold 0.9 sherpa puts them in one cluster, as it put a man and a woman on one laptop microphone

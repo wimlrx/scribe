@@ -25,5 +25,5 @@ body:
     id: log
     attributes:
       label: Log lines
-      description: From %LOCALAPPDATA%\Scribe\logs\scribe.log. Check them for anything private first.
+      description: From %USERPROFILE%\.scribe\logs\scribe.log. Check them for anything private first.
       render: text

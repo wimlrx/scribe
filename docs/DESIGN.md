@@ -63,7 +63,7 @@ The wall: the Claude run executes with `cwd` = the chosen vault only. Scribe its
 
 Runtime state lives outside the repo:
 
-- `%LOCALAPPDATA%\Scribe\` — `settings.json`, `models\`, `voiceprint.json`, `logs\scribe.log`, `ipc.key`
+- `%USERPROFILE%\.scribe\` — `settings.json`, `models\`, `voiceprint.json`, `logs\scribe.log`, `ipc.key`
 - `%USERPROFILE%\Documents\Scribe\` — `Recordings\<YYYY-MM-DD HHMM[-n]>\` (one folder per job) and `Inbox\<Vault>\` (one per configured vault, plus `Local`)
 
 ## Environment (fixed)
@@ -73,7 +73,7 @@ Runtime state lives outside the repo:
 - In the venv: PyAudioWPatch 0.2.12.9, soundfile 0.14.0, soxr 1.1.0, sherpa-onnx 2.0.1, pystray 0.19.5.
 - **No other packages may be installed.** No pytest; tests use `unittest`.
 - Tools on PATH: `ffmpeg`, `ffprobe`, `ollama` (server at http://127.0.0.1:11434). Claude CLI: `%USERPROFILE%\.local\bin\claude.exe`.
-- Models: Whisper `large-v3` and `large-v3-turbo` in the HF cache (`WhisperModel("large-v3")` resolves them); sherpa models in `%LOCALAPPDATA%\Scribe\models\`: `sherpa-onnx-pyannote-segmentation-3-0\model.onnx`, `wespeaker_en_voxceleb_resnet34_LM.onnx`. Ollama vision model `qwen3.6:27b-q4_K_M` (may still be downloading; tests that need it skip with a message if `ollama list` lacks it).
+- Models: Whisper `large-v3` and `large-v3-turbo` in the HF cache (`WhisperModel("large-v3")` resolves them); sherpa models in `%USERPROFILE%\.scribe\models\`: `sherpa-onnx-pyannote-segmentation-3-0\model.onnx`, `wespeaker_en_voxceleb_resnet34_LM.onnx`. Ollama vision model `qwen3.6:27b-q4_K_M` (may still be downloading; tests that need it skip with a message if `ollama list` lacks it).
 
 ## Rules for every module
 
@@ -87,7 +87,7 @@ Runtime state lives outside the repo:
 
 ### config.py
 ```python
-APP_DIR: Path            # %LOCALAPPDATA%\Scribe
+APP_DIR: Path            # %USERPROFILE%\.scribe
 OUTPUT_ROOT: Path        # from settings, default %USERPROFILE%\Documents\Scribe
 def load_settings() -> dict          # merges settings.json over DEFAULTS, writes DEFAULTS on first run
 def recordings_dir() -> Path; def inbox_dir(vault: str) -> Path; def models_dir() -> Path
@@ -250,11 +250,11 @@ class Tray:      # pystray, run_detached
 - All Tk calls happen on the Tk thread; other threads call through a thread-safe queue polled with `root.after`.
 
 ### app.py and scribe.pyw
-- Single instance via named mutex `Local\ScribeSingleton`. A second launch sends its command over IPC (`multiprocessing.connection` on `127.0.0.1:47391`, authkey from `%LOCALAPPDATA%\Scribe\ipc.key`, created on first run) and exits.
+- Single instance via named mutex `Local\ScribeSingleton`. A second launch sends its command over IPC (`multiprocessing.connection` on `127.0.0.1:47391`, authkey from `%USERPROFILE%\.scribe\ipc.key`, created on first run) and exits.
 - CLI: `scribe.pyw [--toggle-notetaker] [--add PATH [--vault NAME]] [--quit] [--status]`.
 - Wiring: `HoldHotkey` -> `MicCapture` -> `DictationASR` (loaded at startup, resident) -> `paste_text`; after a successful dictation of >= 3 s, `Voiceprint.enroll` on that audio (first 30 clips, then 1 in 10). The notetaker toggles `MeetingRecorder` in a new job folder; stop -> vault picker -> `JobQueue.submit`. Dictation keeps working while a job runs (separate model instance).
 - Inbox watcher (`watchdog`) on `Inbox\<Vault>\`: a new media file (`.mp4 .mkv .mov .webm .m4a .mp3 .wav .flac .ogg .aac`) whose size is stable for 5 s becomes a `file` job with that vault. `--add PATH --vault NAME` does the same without moving the file.
-- Rotating log at `%LOCALAPPDATA%\Scribe\logs\scribe.log`. Unhandled exceptions in any thread are logged, never shown as dialogs.
+- Rotating log at `%USERPROFILE%\.scribe\logs\scribe.log`. Unhandled exceptions in any thread are logged, never shown as dialogs.
 
 ### install.ps1
 ASCII only. Creates with `WScript.Shell`: Startup `Scribe.lnk` (`.venv\Scripts\pythonw.exe scribe.pyw`), Desktop and Start-menu `Notetaker.lnk` (`... scribe.pyw --toggle-notetaker`, pinnable to the taskbar), SendTo `Scribe - <Vault>.lnk` for each configured vault and `Scribe - transcript only.lnk` (`... scribe.pyw --vault <name> --add`; SendTo appends the file path). Creates `Documents\Scribe\Inbox\<Vault>` for each vault plus `Local`. Copies `skill\transcribe\SKILL.md` to `%USERPROFILE%\.claude\skills\transcribe\SKILL.md`. Generates `scribe.ico` from the tray glyph if missing. Idempotent. `-Uninstall` removes the shortcuts only.

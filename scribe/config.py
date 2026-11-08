@@ -1,4 +1,4 @@
-"""Settings and paths. Runtime state lives in %LOCALAPPDATA%\\Scribe, deliverables in Documents\\Scribe."""
+"""Settings and paths. Runtime state lives in %USERPROFILE%\\.scribe, deliverables in Documents\\Scribe."""
 from __future__ import annotations
 
 import copy
@@ -10,7 +10,9 @@ from pathlib import Path
 
 log = logging.getLogger("scribe.config")
 
-APP_DIR = Path(os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local"))) / "Scribe"
+# Not under AppData: Windows redirects AppData for anything a packaged app starts, so the tray app and an MCP
+# server started by the Claude desktop app would otherwise read different settings, keys and voiceprints.
+APP_DIR = Path(os.environ.get("SCRIBE_HOME") or Path.home() / ".scribe")
 SETTINGS_PATH = APP_DIR / "settings.json"
 MEDIA_EXTS = {".mp4", ".mkv", ".mov", ".webm", ".m4a", ".mp3", ".wav", ".flac", ".ogg", ".aac"}
 VIDEO_EXTS = {".mp4", ".mkv", ".mov", ".webm"}

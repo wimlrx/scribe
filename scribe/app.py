@@ -1163,7 +1163,7 @@ class App:
 
 
 def setup_logging(level: int = logging.INFO) -> Path:
-    """Rotating log at %LOCALAPPDATA%\\Scribe\\logs\\scribe.log for the whole scribe.* tree."""
+    """Rotating log at %USERPROFILE%\\.scribe\\logs\\scribe.log for the whole scribe.* tree."""
     path = config.logs_dir() / "scribe.log"
     logger = logging.getLogger("scribe")
     if not any(isinstance(h, logging.handlers.RotatingFileHandler) for h in logger.handlers):
