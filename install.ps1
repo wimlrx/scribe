@@ -29,6 +29,7 @@ function Say($m) { Write-Host $m }
 # Fixed shortcuts. "Send to" entries for each vault in settings.json are added below.
 $Shortcuts = @(
     @{ Name = 'Scribe';                   Dir = $Startup;  Args = '' },
+    @{ Name = 'Scribe';                   Dir = $Programs; Args = '' },
     @{ Name = 'Notetaker';                Dir = $Desktop;  Args = '--toggle-notetaker' },
     @{ Name = 'Notetaker';                Dir = $Programs; Args = '--toggle-notetaker' },
     @{ Name = 'Scribe - transcript only'; Dir = $SendTo;   Args = '--vault Local --add' }
