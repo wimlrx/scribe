@@ -24,3 +24,6 @@ Inbox/
 .idea/
 Thumbs.db
 desktop.ini
+
+# Installer build output
+dist/
