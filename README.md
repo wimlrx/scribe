@@ -37,24 +37,32 @@ Hold `Ctrl+Win`, speak, let go: your words are typed where the cursor is. Click 
 
 | | |
 |---|---|
-| OS | Windows 10 or 11 |
-| GPU | NVIDIA with ~6 GB free VRAM (CUDA 12 driver). CPU works, slowly. |
-| Python | 3.13 |
-| Disk | ~8 GB (PyTorch CUDA build + Whisper models) |
+| OS | Windows 10 or 11, 64-bit |
+| GPU | **Required:** NVIDIA GeForce RTX 20-series or newer, 6 GB VRAM or more (8 GB recommended), driver 570 or newer |
+| RAM | 16 GB |
+| Disk | About 10 GB free (PyTorch CUDA build 4.5 GB, Whisper models 4.6 GB) |
+| Internet | During setup only, to download Python, PyTorch and the models |
 | Optional | [Ollama](https://ollama.com) for clean-up and video notes · [Claude Code](https://claude.com/claude-code) for notes and the MCP server |
 
 ## Install
+
+**[Download ScribeSetup.exe](https://github.com/wimlrx/scribe/releases/latest/download/ScribeSetup.exe)** (12 MB) and run it. No admin rights are needed.
+
+The installer is small: on the last page, *Set up now* opens a window that downloads Python 3.13, PyTorch and the speech models (about 10 GB, 10–40 minutes), then starts Scribe. A grey microphone appears in the notification area, and Scribe starts with Windows from then on.
+
+Windows may show *Windows protected your PC*, because the installer is not code-signed yet: click **More info → Run anyway**.
+
+Uninstall from **Settings → Apps → Scribe**. Your recordings (`Documents\Scribe`) and settings and voiceprint (`%USERPROFILE%\.scribe`) are kept; delete those folders to remove them too.
+
+### From source
 
 ```powershell
 git clone https://github.com/wimlrx/scribe
 cd scribe
 powershell -ExecutionPolicy Bypass -File install.ps1
-Start-Process "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Scribe.lnk"
 ```
 
-The installer creates a virtual environment, installs the pinned packages, downloads the Whisper and speaker models, pulls the Ollama models if Ollama is installed, registers the MCP server if Claude Code is installed, and adds shortcuts (Startup, Desktop *Notetaker*, *Send to*). Running it again is safe. `install.ps1 -Uninstall` removes the shortcuts.
-
-A grey microphone appears in the notification area.
+`install.ps1` creates a virtual environment (with [uv](https://github.com/astral-sh/uv) if you have it, else Python 3.13), installs the pinned packages, downloads the Whisper and speaker models, pulls the Ollama clean-up model if Ollama is installed, registers the MCP server if Claude Code is installed, and adds shortcuts (Start menu, Startup, Desktop *Notetaker*, *Send to*). Running it again is safe. `install.ps1 -Uninstall` removes its shortcuts. `installer\build.ps1` builds `ScribeSetup.exe` with Inno Setup.
 
 ## Use
 
@@ -91,7 +99,7 @@ After a recording, pick a vault. Claude Code runs headless inside it, reads the 
 | `start_notetaker` / `stop_notetaker` | Start or stop recording |
 | `send_to_vault` | Send a finished Local recording to a vault |
 
-The server talks to the running app over a local pipe and opens no port. Transcript text is never written to the logs.
+The server talks to the running app over a local connection on `127.0.0.1`, authenticated with a key kept in `%USERPROFILE%\.scribe`. Transcript text is never written to the logs.
 
 ## How it works
 
@@ -143,7 +151,7 @@ The full design is in [docs/DESIGN.md](docs/DESIGN.md).
 
 ## FAQ
 
-**Does it work without an NVIDIA GPU?** Yes, on the CPU, but a 5-second dictation takes about 10 seconds and a meeting takes about its own length.
+**Does it work without an NVIDIA GPU?** Not yet. Scribe moves to the CPU only when the GPU runs out of memory; a CPU-only mode is on the list.
 
 **Does it work without Ollama or Claude Code?** Yes. Without Ollama you get raw Whisper text; without Claude Code you get the speaker-labelled draft.
 

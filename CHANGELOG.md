@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — 2026-11-11
+
+- **Windows installer:** `ScribeSetup.exe` (per-user, no admin) installs Scribe, fetches Python 3.13 with the bundled uv, PyTorch and the models, and adds a Start menu entry and an uninstaller.
+- Runtime data moved from `%LOCALAPPDATA%\Scribe` to `%USERPROFILE%\.scribe`, so an MCP server started by the Claude desktop app sees the same settings, key and voiceprint as the tray app. `SCRIBE_HOME` overrides it.
+- `install.ps1 -Uninstall` removes only its own shortcuts, an existing transcribe skill is kept, and the large Ollama vision model is no longer pulled unasked.
+- README: an NVIDIA GPU is required (there is no CPU-only mode yet).
+
 ## 0.1.0 — 2026-11-03
 
 First public release.
